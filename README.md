@@ -1,6 +1,11 @@
 # HABitatX
 HABitatX は，openHAB では煩雑になりがちな複数デバイスの一括管理を支援するツールである．
-本システムは，openHAB の一括管理操作を提供するインターフェースとして動作する．事前に openHAB が動作していることが条件である．本システムは単体で動作し， 同じコンピュータ上で動作している openHAB のデバイス設定を担う設定ファイルを一括で作成，変更，削除できる．
+本システムは，openHAB の一括管理操作を提供するインターフェースとして動作する．事前に openHAB が動作していることが条件である．
+本システムは単体で動作し， 同じコンピュータ上で動作している openHAB のデバイス設定を担うテキストファイルを一括で作成，変更，削除できる．
+openHAB のデバイス設定を担うテキストファイルはテンプレートコードとスプレッドシートから作成される．
+テンプレートコードとは，openHAB のデバイスを設定するテキストファイルの構造やフォーマットを定義し、
+必要な情報を指定された箇所に埋め込むことができるコードである．形式として ERB を用いる．
+スプレッドシートは，テキストファイル作成に必要な，テンプレートコードに埋め込まれる情報をもつインタフェースである．Excel 形式を用いる．
 
 "HABitatX"は，"openHAB"，"habitat"をもとに作られた造語である．
 この名前は，openHAB を表す"HAB"と生息地を表す"habitat"，未来への展望を表す"X"を組み合わせたものである．
@@ -19,7 +24,7 @@ HABitatX は，openHAB では煩雑になりがちな複数デバイスの一括
    $ git clone https://github.com/SenoOh/HABitatX.git
    ```
 ## Install SQL
-本システムは`DB`との接続に`ActiveRecord`を使用しているため，任意のリレーショナルデータベース管理システム(`RDBMS`)を使用できる．今回は例として`PostgreSQL`のインストールについて説明する．
+本システムは DB との接続に`ActiveRecord`を使用しているため，任意のリレーショナルデータベース管理システム(`RDBMS`)を使用できる．今回は例として PostgreSQL のインストールについて説明する．
 
 ### Install PostgreSQL
 + PostgreSQL 14 の公式リポジトリを追加する
@@ -61,9 +66,11 @@ $ sudo apt install libpq-dev
 
 # Launch
 ## 事前準備
-1. `habitatx.rb` の `OPENHAB_PATH` を自分の `openHAB` の設定ファイルが置かれるディレクトリに変更する
-2. `config/database.yml` の `SQL` の情報を自分の `SQL` の情報に変更する
-3. `bundle install`する
+1. `habitatx.rb` の `OPENHAB_PATH` を自分の openHAB の設定ファイルが置かれるディレクトリに変更する
+2. `ActiveRecord::Base.establish_connection()`について自身の SQL の情報に変更する
+3. `config/database.yml` の SQL の情報を自身の SQL の情報に変更する
+4. 任意の SQL の gem をインストールする
+5. `bundle install`する
    ```bash
    $ bundle install
    ```
@@ -86,10 +93,10 @@ $ docker build -t habitatx_docker .
 ```
 2. 起動 (openHAB がコンテナで動いていない場合)
 ```shell
-$ docker run -it -p 5678:4567 --name habitatx -v ${PWD}/:/var/www habitatx_docker
+$ docker run -it -p 4567:4567 --name habitatx -v ${PWD}/:/var/www habitatx_docker
 ```
 3. 起動 (openHAB がコンテナで動いている場合)
 ```shell
-$ docker run -it -p 5678:4567 --name habitatx -v ${PWD}/:/var/www --volumes-from <openHABのコンテナ名> habitatx_docker
+$ docker run -it -p 4567:4567 --name habitatx -v ${PWD}/:/var/www --volumes-from <openHABのコンテナ名> habitatx_docker
 ```
-起動後，ブラウザ上で http://localhost:5678 を開くと HABitatX の画面が開く
+起動後，ブラウザ上で http://localhost:4567 を開くと HABitatX の画面が開く

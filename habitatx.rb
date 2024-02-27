@@ -9,6 +9,7 @@ require 'active_record'
 require 'sinatra/activerecord'
 require 'pg'
 require 'rake'
+require 'sqlite3'
 
 OPENHAB_PATH = '/etc/openhab'
 
@@ -16,9 +17,9 @@ OPENHAB_PATH = '/etc/openhab'
 set :database_file, 'config/database.yml'
 
 ActiveRecord::Base.establish_connection(
-  adapter: 'postgresql',
-  database: 'postgres', 
-  username: 'habitatx'
+  "adapter"  => "your_sql",
+  "database" => "your_database",
+  "username" => "your_username"
 )
 class Template < ActiveRecord::Base
   belongs_to :datafiles
@@ -30,7 +31,6 @@ end
 
 
 def post_things(hash_json, template_code, template_basename)
-  puts "dedededede:#{hash_json.inspect}"
   for code in hash_json['data']
     erb_template = ERB.new(template_code) # テンプレート文字列を使用する
     output = erb_template.result(binding) # erbファイルを書き換える
@@ -49,7 +49,6 @@ def post_things(hash_json, template_code, template_basename)
 end
 
 def delete_things(hash_json, template_basename)
-  puts "dedededede:#{hash_json.inspect}"
   for code in hash_json['data']
     File.delete("#{OPENHAB_PATH}/things/#{template_basename}_#{code['thingID']}.things")
   end

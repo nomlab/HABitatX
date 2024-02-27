@@ -1,26 +1,26 @@
 default: &default
-  adapter: postgresql
+  adapter: your_sql
   timeout: 5000
   pool: 5
   encoding: unicode 
 
 development:
   <<: *default
-  database: postgres
-  username: habitatx
+  database: your_database
+  username: your_username
   password: your_password
   host: localhost
 
 test:
   <<: *default
-  database: postgres
-  username: habitatx
+  database: your_database
+  username: your_username
   password: your_password
   host: localhost
 
 production:
   <<: *default
-  database: postgres
-  username: habitatx
+  database: your_database
+  username: your_username
   password: your_password
   host: localhost
