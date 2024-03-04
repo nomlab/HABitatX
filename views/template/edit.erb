@@ -1,23 +1,23 @@
 <form action="/template/<%= params[:id] %>" method="post">
   <div class="mb-3">
-    <label for="title_template" class="form-label">タイトル：<%= @title_template %></label>
+    <label for="title_template" class="form-label">title：<%= @title_template %></label>
   </div>
   <div class="mb-3">
-    <label for="content" class="form-label">コード</label>
+    <label for="content" class="form-label">code</label>
     <textarea id="content" name="content" class="form-control"><%= @content %></textarea>
   </div>
   <div class="mb-3">
-    <label for="basename" class="form-label">openHAB 設定ファイル名：<%= @basename %></label>
+    <label for="basename" class="form-label">openHAB ID prefix：<%= @basename %></label>
   </div>
   <div class="mb-3">
-    <label for="file_type" class="form-label">拡張子：<%= @file_type %></label>
+    <label for="file_type" class="form-label">extension：<%= @file_type %></label>
     </select>
   </div>
   <div>
     <input type="hidden" name="_method" value="patch">
-    <input type="submit" value="保存" class="btn btn-primary">
+    <input type="submit" value="submit" class="btn btn-primary">
   </div>
 </form>
 <div>
-  <a class="btn btn-secondary" href="/template/<%= params[:id] %>">戻る</a>
+  <a class="btn btn-secondary" href="/template/<%= params[:id] %>">back</a>
 </div>

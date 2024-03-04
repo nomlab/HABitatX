@@ -1,15 +1,15 @@
 <form action="/datafile/<%= params[:id] %>" method="post">
   <div class="mb-3">
-    <label for="title_datafile" class="form-label">Datafileタイトル：<%= @title_datafile %></label>
+    <label for="title_datafile" class="form-label">title：<%= @title_datafile %></label>
   </div>
   <div class="mb-3">
-    <label for="table" class="form-label">Excel</label>
+    <label for="table" class="form-label">spreadsheet</label>
     <textarea id="table" name="table" class="form-control"><%= @table %></textarea>
   </div>
   <div class="mb-3">
-    <label for="title_template" class="form-label">Code</label>
+    <label for="title_template" class="form-label">code</label>
     <select id="title_template" name="title_template" class="form-control">
-      <option value="">Code</option>
+      <option value="">code</option>
       <% @template.each do |template| %>
         <option value="<%= template["title_template"] %>"><%= template["title_template"] %></option>
       <% end %>
@@ -17,9 +17,9 @@
   </div>
   <div>
     <input type="hidden" name="_method" value="patch">
-    <input type="submit" value="保存" class="btn btn-primary">
+    <input type="submit" value="submit" class="btn btn-primary">
   </div>
 </form>
 <div>
-  <a class="btn btn-secondary" href="/datafile/<%= params[:id] %>">戻る</a>
+  <a class="btn btn-secondary" href="/datafile/<%= params[:id] %>">back</a>
 </div>

@@ -17,9 +17,9 @@ OPENHAB_PATH = '/etc/openhab'
 set :database_file, 'config/database.yml'
 
 ActiveRecord::Base.establish_connection(
-  "adapter"  => "your_sql",
-  "database" => "your_database",
-  "username" => "your_username"
+  "adapter"  => "sqlite3",
+  "database" => "db/habitatx.sqlite3",
+  "username" => "habitatx"
 )
 class Template < ActiveRecord::Base
   belongs_to :datafiles

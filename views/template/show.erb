@@ -1,27 +1,27 @@
 <div class="container">
   <div>
-    <p>タイトル : <%= @title_template %></p>
+    <p>title : <%= @title_template %></p>
     <pre class="p-3 mb-0">
       <code class="language-javascript">
 <%= @content %>
       </code>
     </pre>
-    <p>openHAB 設定ファイル名 : <%= @basename %></p>
-    <p>拡張子 : <%= @file_type %></p>
+    <p>openHAB ID prefix : <%= @basename %></p>
+    <p>extension : <%= @file_type %></p>
   </div>
 </div>
 <div class="d-flex mb-4">
   <form action="/template/<%= params[:id] %>/edit" method="get">
-    <input type="submit" value="編集" class="btn btn-primary me-2">
+    <input type="submit" value="edit" class="btn btn-primary me-2">
   </form>
   <form action="/template/<%= params[:id] %>" method="post">
     <input type="hidden" name="_method" value="delete">
-    <input type="submit" value="削除" class="btn btn-primary">
+    <input type="submit" value="delete" class="btn btn-primary">
   </form>
 </div>
 <div>
-  <a class="btn btn-secondary" href="/template">Template一覧に戻る</a>
+  <a class="btn btn-secondary" href="/template">back to Template</a>
 </div>
 <div>
-  <a class="btn btn-secondary" href="/datafile">Datafile一覧に戻る</a>
+  <a class="btn btn-secondary" href="/datafile">back to Datafile</a>
 </div>
