@@ -35,7 +35,7 @@ openHAB のデバイス設定を担うテキストファイルはテンプレー
 1. `habitatx.rb` の `OPENHAB_PATH` を自分の openHAB の設定ファイルが置かれるディレクトリに変更する
 2. `ActiveRecord::Base.establish_connection()`について自身の RDBMS の情報に変更する
 3. `config/database.yml` の RDBMS の情報を自身の RDBMS の情報に変更する
-4. 任意の RDBMS の gem をインストールする
+4. 任意の RDBMS の gem について `Gemfile` と `habitatx.rb` に追加する
 5. `bundle install`する
    ```bash
    $ bundle install
@@ -69,6 +69,8 @@ $ docker run -it -p 4567:4567 --name habitatx -v ${PWD}/:/var/www --volumes-from
 
 # Usage
 ![Overview](./doc/HABitatX.svg)
+
+## デモ
 1. テンプレートコード作成
    ```bash
    Switch <%= code['itemID'] %> "<%= code['label'] %>" <<%= code['icon'] %>>
@@ -77,15 +79,15 @@ $ docker run -it -p 4567:4567 --name habitatx -v ${PWD}/:/var/www --volumes-from
 
    https://www.youtube.com/watch?v=XqZT1b-lbVg
 
-   ・codeはテンプレートコードである．
+   ・codeはテンプレートコードである
    
-   ・openHAB ID prefix と 各デバイスのIDを組み合わせて設定ファイル名を作成する．
+   ・openHAB ID prefix と 各デバイスのIDを組み合わせて設定ファイル名を作成する
    
-   ・extentionは拡張子を選択する．
+   ・extentionは拡張子を選択する
 
 3. スプレッドシート作成
 
-![Overview](./doc/spreadsheet.png)
+   ![Overview](./doc/spreadsheet.png)
 
    スプレッドシートは `HABitatX/db/excel` に配置することで使用できる
 
@@ -98,5 +100,3 @@ $ docker run -it -p 4567:4567 --name habitatx -v ${PWD}/:/var/www --volumes-from
    https://www.youtube.com/watch?v=ZzczEUgfLsQ
 
 デモ動画で使用したテンプレートコードとスプレッドシートは `HABitatX/examples` に配置している
-
-スプレッドシートは `HABitatX/db/excel` に配置することで使用できる

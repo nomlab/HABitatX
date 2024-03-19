@@ -18,8 +18,7 @@ set :database_file, 'config/database.yml'
 
 ActiveRecord::Base.establish_connection(
   "adapter"  => "sqlite3",
-  "database" => "db/habitatx.sqlite3",
-  "username" => "habitatx"
+  "database" => "db/habitatx.sqlite3"
 )
 class Template < ActiveRecord::Base
   belongs_to :datafiles
@@ -223,7 +222,6 @@ post '/datafile' do
   Datafile.create(title_datafile: title_datafile, table: hash, template_id: template_id)
   hash_to_json = hash.to_json
   hash_json = JSON.parse(hash_to_json)
-  puts "kkkkkkkkk:#{hash_json.inspect}"
   if selected_template["file_type"] == "things"
     post_things(hash_json, template_code, template_basename)
   else

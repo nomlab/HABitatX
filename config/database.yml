@@ -7,20 +7,11 @@ default: &default
 development:
   <<: *default
   database: db/habitatx.sqlite3
-  username: habitatx
-  password: your_password
-  host: localhost
 
 test:
   <<: *default
   database: db/habitatx.sqlite3
-  username: habitatx  
-  password: your_password
-  host: localhost
 
 production:
   <<: *default
   database: db/habitatx.sqlite3
-  username: habitatx
-  password: your_password
-  host: localhost
