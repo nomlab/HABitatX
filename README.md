@@ -1,14 +1,19 @@
-# HABitatX
-HABitatX は，openHAB では煩雑になりがちな複数デバイスの一括管理を支援するツールである．
-本システムは，openHAB の一括管理操作を提供するインターフェースとして動作する．事前に openHAB が動作していることが条件である．
-本システムは単体で動作し， 同じコンピュータ上で動作している openHAB のデバイス設定を担うテキストファイルを一括で作成，変更，削除できる．
-openHAB のデバイス設定を担うテキストファイルはテンプレートコードとスプレッドシートから作成される．
-テンプレートコードとは，openHAB のデバイスを設定するテキストファイルの構造やフォーマットを定義し、
-必要な情報を指定された箇所に埋め込むことができるコードである．形式として ERB を用いる．
-スプレッドシートは，テキストファイル作成に必要な，テンプレートコードに埋め込まれる情報をもつインタフェースである．Excel 形式を用いる．
+[English][] | [日本語][]
 
-"HABitatX"は，"openHAB"，"habitat"をもとに作られた造語である．
-この名前は，openHAB を表す"HAB"と生息地を表す"habitat"，未来への展望を表す"X"を組み合わせたものである．
+
+[English]:  https://github.com/nomlab/HABitatX/README.md       "English"
+[日本語]:    https://github.com/nomlab/HABitatX/README.ja.md    "日本語"
+
+# HABitatX
+HABitatX is a tool that supports batch management of multiple devices, which tends to be complicated in the openHAB smart home system.
+This system works as an interface to provide batch management operations for openHAB. It is required that openHAB is running.
+The system operates as a stand-alone application and runs on the same computer as openHAB. It can create, modify, and delete text files that configure openHAB devices at once.
+
+Text files that configure openHAB devices are created from template codes and spreadsheets.
+Template code is a code that defines the structure and format of the text file that configures openHAB devices, and can embed necessary information in the specified locations. ERB is used as the format.
+A spreadsheet is an interface with information embedded in the template code that is necessary to create a text file.The Excel format is used.
+
+HABitatX" is a term coined from "openHAB," "habitat," and "X," which represents a vision for the future.
 # Requirements
 + Ruby 3.x
 + openHAB 3~
@@ -18,85 +23,85 @@ openHAB のデバイス設定を担うテキストファイルはテンプレー
 
 # Setup
 ## HABitatX
-1. ダウンロードする
+1. Clone this repository 
    ```bash
    $ git clone https://github.com/SenoOh/HABitatX.git
    ```
 ## Install RDBMS
-本システムは DB との接続に`ActiveRecord`を使用しているため，任意のリレーショナルデータベース管理システム(`RDBMS`)を使用できる．今回は例として SQLite3 のインストールについて説明する．
-1. aptでインストールする
+This system uses `ActiveRecord` for DB connection, so any relational database management system (`RDBMS`) can be used. I explain the installation of SQLite3 as an example.
+1. Install SQlite3
    ```bash
    $ sudo apt install sqlite3
    ```
 
 
 # Launch
-## 事前準備
-1. `habitatx.rb` の `OPENHAB_PATH` を自分の openHAB の設定ファイルが置かれるディレクトリに変更する
-2. `ActiveRecord::Base.establish_connection()`について自身の RDBMS の情報に変更する
-3. `config/database.yml` の RDBMS の情報を自身の RDBMS の情報に変更する
-4. 任意の RDBMS の gem について `Gemfile` と `habitatx.rb` に追加する
-5. `bundle install`する
+## Preliminary Preparations
+1. Change `OPENHAB_PATH` in `habitatx.rb` to the directory where your openHAB text files are located.
+2. Change `ActiveRecord::Base.establish_connection()` to your RDBMS information.
+3. Change the RDBMS information in `config/database.yml` to your RDBMS information.
+4. Add any RDBMS gem you want to use to `Gemfile` and `habitatx.rb`.
+5. bundle install
    ```bash
    $ bundle install
    ```
-6. DBを作成する
+6. Generate DB
    ```bash
    $ bundle exec rake db:migrate
    ```
 
 ## Linux
-1. 起動
+1. Launch
 ```bash
 $ bundle exec ruby habitatx.rb
 ```
-起動後，ブラウザ上で http://localhost:4567 を開くと HABitatX の画面が開く
+After launching, open http://localhost:4567 in your browser to open the HABitatX screen.
 
 ## Docker
-1. コンテナイメージ作成
+1. Generate Container Image
 ```bash
 $ docker build -t habitatx_docker .
 ```
-2. 起動 (openHAB がコンテナで動いていない場合)
+2. Launch (If openHAB is not running in a container)
 ```shell
 $ docker run -it -p 4567:4567 --name habitatx -v ${PWD}/:/var/www habitatx_docker
 ```
-3. 起動 (openHAB がコンテナで動いている場合)
+3. Launch (If openHAB is running in a container)
 ```shell
 $ docker run -it -p 4567:4567 --name habitatx -v ${PWD}/:/var/www --volumes-from <openHABのコンテナ名> habitatx_docker
 ```
-起動後，ブラウザ上で http://localhost:4567 を開くと HABitatX の画面が開く
+After launching, open http://localhost:4567 in your browser to open the HABitatX screen
 
 # Usage
 ![Overview](./doc/HABitatX.svg)
 
-## デモ
-1. テンプレートコード作成
+## Demo movie
+1. Generate template code.
    ```bash
    Switch <%= code['itemID'] %> "<%= code['label'] %>" <<%= code['icon'] %>>
    ```
-2. template操作部でtitle，code，openHAB ID prefix，extensionを設定
+2. Set title, code, openHAB ID prefix, and extension in the template operator.
 
    https://www.youtube.com/watch?v=XqZT1b-lbVg
 
-   ・codeはテンプレートコードである
+   ・code is template code.
    
-   ・openHAB ID prefix と 各デバイスのIDを組み合わせて設定ファイル名を作成する
+   ・Create a text file name by combining openHAB ID prefix and the ID of each device.
    
-   ・extentionは拡張子を選択する
+   ・For "extension", select the extension from the pull-down menu.
 
-3. スプレッドシート作成
+3. Generate spreadsheet.
 
    ![Overview](./doc/spreadsheet.png)
 
-   スプレッドシートは `HABitatX/db/excel` に配置することで使用できる
+   Spreadsheets can be used by placing them in `HABitatX/db/excel`.
 
-4. datafile操作部でtitle，spreadsheet，codeを設定
+4. Set title，spreadsheet and code in the datafile operator.
 
    https://www.youtube.com/watch?v=Kh5YQE_awGI
 
-5. デバイス一括作成
+5. Generate devices at once.
 
    https://www.youtube.com/watch?v=ZzczEUgfLsQ
 
-デモ動画で使用したテンプレートコードとスプレッドシートは `HABitatX/examples` に配置している
+The template code and spreadsheets used in the demo video are placed in `HABitatX/examples`.
