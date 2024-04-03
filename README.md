@@ -1,8 +1,8 @@
 [English][] | [日本語][]
 
 
-[English]:  https://github.com/nomlab/HABitatX/README.md       "English"
-[日本語]:    https://github.com/nomlab/HABitatX/README.ja.md    "日本語"
+[English]:  https://github.com/nomlab/HABitatX/blob/main/README.md       "English"
+[日本語]:    https://github.com/nomlab/HABitatX/blob/main/README.ja.md    "日本語"
 
 # HABitatX
 HABitatX is a tool that supports batch management of multiple devices, which tends to be complicated in the openHAB smart home system.

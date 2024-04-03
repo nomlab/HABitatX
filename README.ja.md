@@ -1,8 +1,8 @@
 [English][] | [日本語][]
 
 
-[English]:  https://github.com/nomlab/HABitatX/README.md       "English"
-[日本語]:    https://github.com/nomlab/HABitatX/README.ja.md    "日本語"
+[English]:  https://github.com/nomlab/HABitatX/blob/main/README.md       "English"
+[日本語]:    https://github.com/nomlab/HABitatX/blob/main/README.ja.md    "日本語"
 
 # HABitatX
 HABitatX は，スマートホームシステムである openHAB では煩雑になりがちな複数デバイスの一括管理を支援するツールである．
