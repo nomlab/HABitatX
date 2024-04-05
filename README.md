@@ -5,15 +5,18 @@
 [日本語]:    https://github.com/nomlab/HABitatX/blob/main/README.ja.md    "日本語"
 
 # HABitatX
-HABitatX is a tool that supports batch management of multiple devices, which tends to be complicated in the openHAB smart home system.
-This system works as an interface to provide batch management operations for openHAB. It is required that openHAB is running.
-The system operates as a stand-alone application and runs on the same computer as openHAB. It can create, modify, and delete text files that configure openHAB devices at once.
+HABitatX is a tool that supports batch management of multiple devices, which tends to be complicated in the openHAB smart home system. 
+This system works as an interface to provide batch management operations for openHAB. It is required that openHAB is running. 
+The system operates as a stand-alone application and runs on the same computer as openHAB. It can create, modify, and delete text files that configure openHAB devices at once. 
 
-Text files that configure openHAB devices are created from template codes and spreadsheets.
-Template code is a code that defines the structure and format of the text file that configures openHAB devices, and can embed necessary information in the specified locations. ERB is used as the format.
-A spreadsheet is an interface with information embedded in the template code that is necessary to create a text file.The Excel format is used.
+Text files that configure openHAB devices are created from template codes and spreadsheets. 
+Template code defines the structure of a text file that configures the openHAB device. 
+Template code is an embedded type and creates a text file by embedding information obtained from external sources in specified locations. 
+It uses ERB, a template engine, as the format. 
+A spreadsheet is an interface that contains a list of information to be embedded in the template code. 
+It useu Excel as the format. 
 
-HABitatX" is a term coined from "openHAB," "habitat," and "X," which represents a vision for the future.
+HABitatX" is a term coined from "openHAB", "habitat", and "X" which represents a vision for the future.
 # Requirements
 + Ruby 3.x
 + openHAB 3~
@@ -28,7 +31,8 @@ HABitatX" is a term coined from "openHAB," "habitat," and "X," which represents 
    $ git clone https://github.com/SenoOh/HABitatX.git
    ```
 ## Install RDBMS
-This system uses `ActiveRecord` for DB connection, so any relational database management system (`RDBMS`) can be used. I explain the installation of SQLite3 as an example.
+This system uses `ActiveRecord` for DB connection, so it can use relational database management system (`RDBMS`). 
+We explain the installation of SQLite3 as an example. 
 1. Install SQlite3
    ```bash
    $ sudo apt install sqlite3
@@ -37,15 +41,14 @@ This system uses `ActiveRecord` for DB connection, so any relational database ma
 
 # Launch
 ## Preliminary Preparations
-1. Change `OPENHAB_PATH` in `habitatx.rb` to the directory where your openHAB text files are located.
-2. Change `ActiveRecord::Base.establish_connection()` to your RDBMS information.
-3. Change the RDBMS information in `config/database.yml` to your RDBMS information.
-4. Add any RDBMS gem you want to use to `Gemfile` and `habitatx.rb`.
-5. bundle install
+1. Copy `.env.example` file and create `.env` file.
+2. Replace `OPENHAB_PATH`, `MYSQL`, and `MYSQL_DATABASE` in the `.env` file with your own information. 
+3. Add any RDBMS gem you want to use to `Gemfile` and `habitatx.rb`.
+4. bundle install
    ```bash
    $ bundle install
    ```
-6. Generate DB
+5. Generate DB
    ```bash
    $ bundle exec rake db:migrate
    ```
