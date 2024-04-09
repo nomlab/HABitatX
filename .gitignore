@@ -1,0 +1,10 @@
+.env
+.env.*
+!.env.example
+
+/db/*.sqlite3
+/db/*.sqlite3-*
+
+/db/excel/*.xlsx
+!/db/excel/template_item.xlsx
+!/db/excel/template_thing.xlsx

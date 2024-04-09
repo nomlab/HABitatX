@@ -2,23 +2,21 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'json'
 require 'roo'
-require 'axlsx'
+require 'caxlsx'
 require 'erb'
 require 'fileutils'
 require 'active_record'
 require 'sinatra/activerecord'
-require 'pg'
 require 'rake'
 require 'sqlite3'
-
-OPENHAB_PATH = '/etc/openhab'
+require 'dotenv/load'
 
 
 set :database_file, 'config/database.yml'
 
 ActiveRecord::Base.establish_connection(
-  "adapter"  => "sqlite3",
-  "database" => "db/habitatx.sqlite3"
+  "adapter"  => ENV['MYSQL'],
+  "database" => ENV['MYSQL_DATABASE']
 )
 class Template < ActiveRecord::Base
   belongs_to :datafiles
@@ -41,7 +39,7 @@ def post_things(hash_json, template_code, template_basename)
         end
       end
     end
-    FileUtils.cp("#{__dir__}/db/fixed_thing.erb", "#{OPENHAB_PATH}/things/#{template_basename}_#{code['thingID']}.things")
+    FileUtils.cp("#{__dir__}/db/fixed_thing.erb", "#{ENV['OPENHAB_PATH']}/things/#{template_basename}_#{code['thingID']}.things")
   end
   File.delete("#{__dir__}/db/created_thing.erb")
   File.delete("#{__dir__}/db/fixed_thing.erb")
@@ -49,7 +47,7 @@ end
 
 def delete_things(hash_json, template_basename)
   for code in hash_json['data']
-    File.delete("#{OPENHAB_PATH}/things/#{template_basename}_#{code['thingID']}.things")
+    File.delete("#{ENV['OPENHAB_PATH']}/things/#{template_basename}_#{code['thingID']}.things")
   end
 end
 
@@ -58,13 +56,13 @@ def post_items(hash_json, template_code, template_basename)
   for code in hash_json['data']
     erb_template = ERB.new(template_code) # テンプレート文字列を使用する
     output = erb_template.result(binding) # erbファイルを書き換える
-    File.open("#{OPENHAB_PATH}/items/#{template_basename}_#{code['itemID']}.items", 'w') { |file| file.write(output) } # 新しいファイルにoutputでの変更を書き換える
+    File.open("#{ENV['OPENHAB_PATH']}/items/#{template_basename}_#{code['itemID']}.items", 'w') { |file| file.write(output) } # 新しいファイルにoutputでの変更を書き換える
   end
 end
 
 def delete_items(hash_json, template_basename)
   for code in hash_json['data']
-    File.delete("#{OPENHAB_PATH}/items/#{template_basename}_#{code['itemID']}.items")
+    File.delete("#{ENV['OPENHAB_PATH']}/items/#{template_basename}_#{code['itemID']}.items")
   end
 end
 
@@ -81,7 +79,7 @@ def json_to_excel(json_data, output_file)
     new_output_file = output_file.gsub(/\.xlsx$/, "_#{count}.xlsx")
   end
   workbook.serialize(new_output_file)
-  new_output_file
+  puts new_output_file
 end
 
 
@@ -100,12 +98,6 @@ get '/' do
   erb :index
 end
 
-get '/doc/habitatx.pdf' do
-  send_file File.join(settings.root, 'doc', 'habitatx.pdf'), type: 'application/pdf'
-end
-
-
-
 # get '/template' do
 get '/template' do
   @template = Template.all
@@ -117,8 +109,6 @@ get '/template/new' do
   template_items = File.join(settings.views, '_form_items.erb')
   @template_things_content = File.read(template_things)
   @template_items_content = File.read(template_items)
-  puts @template_things_content
-  puts @template_items_content
   erb :'template/new'
 end
 
@@ -192,25 +182,35 @@ post '/datafile' do
   title_datafile = params[:title_datafile]
   table = params[:table]
   title_template = params[:title_template]
-  
-  doc = Roo::Excelx.new("#{__dir__}/db/excel/#{table}")
-  doc.default_sheet = doc.sheets.first
-
-  headers = {}
-  (doc.first_column..doc.last_column).each do |col|
-    headers[col] = doc.cell(doc.first_row, col)
-  end
-
-  hash = {}
-  hash[:data] = []
-  ((doc.first_row + 1)..doc.last_row).each do |row|
-    row_data = {}
-    headers.keys.each do |col|
-      value = doc.cell(row, col)
-      value = value.to_i if doc.celltype(row, col) == :float && value.modulo(1) == 0.0
-      row_data[headers[col]] = value
+  puts "kkokokoko:#{table}"
+  if params[:table]
+    filename = params[:table][:filename]
+    tempfile = params[:table][:tempfile]
+    
+    tempfile_path = "./db/excel/#{filename}"
+    File.open(tempfile_path, 'wb') do |file|
+      file.write(tempfile.read)
     end
-    hash[:data] << row_data
+    doc = Roo::Excelx.new("#{tempfile_path}")
+    doc.default_sheet = doc.sheets.first
+
+    headers = {}
+    (doc.first_column..doc.last_column).each do |col|
+      headers[col] = doc.cell(doc.first_row, col)
+    end
+
+    hash = {}
+    hash[:data] = []
+    ((doc.first_row + 1)..doc.last_row).each do |row|
+      row_data = {}
+      headers.keys.each do |col|
+        value = doc.cell(row, col)
+        value = value.to_i if doc.celltype(row, col) == :float && value.modulo(1) == 0.0
+        row_data[headers[col]] = value
+      end
+      hash[:data] << row_data
+    end
+    File.delete("./db/excel/#{filename}")
   end
 
   selected_template = Template.find_by(title_template: title_template)
@@ -235,9 +235,12 @@ get '/datafile/:id/download' do
   table = datafile["table"]
   table_to_json = table.to_json
   json_data = JSON.parse(table_to_json)
-  output_file = "#{__dir__}/db/excel/download.xlsx"
+  output_file = "#{__dir__}/db/excel/#{datafile["title_datafile"]}.xlsx"
   json_to_excel(json_data, output_file)
+  headers 'Content-Disposition' => "attachment; filename=#{datafile["title_datafile"]}.xlsx"
+  send_file(output_file)
   redirect "/datafile/#{params[:id]}"
+  File.delete(output_file)
 end
 
 get '/datafile/:id' do
@@ -276,7 +279,15 @@ patch '/datafile/:id' do
   @template = Template.all
   datafile = Datafile.find_by(id: params[:id])
   title_datafile = params[:title_datafile]
-
+  table_data = []
+  params[:itemID].each_with_index do |item_id, index|
+    table_data << {
+      "itemID" => item_id,
+      "label" => params[:label][index],
+      "icon" => params[:icon][index]
+    }
+  end
+  params[:table] = { "data" => table_data }.to_json
   table = params[:table]
 
   table_json = table.gsub('=>', ':')

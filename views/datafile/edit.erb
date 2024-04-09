@@ -4,8 +4,25 @@
     <input type="text" id="title_datafile" name="title_datafile" value="<%= @title_datafile %>" class="form-control">
   </div>
   <div class="mb-3">
-    <label for="table" class="form-label">spreadsheet</label>
-    <textarea id="table" name="table" class="form-control"><%= @table %></textarea>
+    <label for="table" class="form-label">Spreadsheet</label>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Item ID</th>
+            <th>Label</th>
+            <th>Icon</th>
+          </tr>
+        </thead>
+      <tbody>
+        <% @table["data"].each do |row| %>
+          <tr>
+            <td><input type="text" name="itemID[]" value="<%= row['itemID'] %>" class="form-control"></td>
+            <td><input type="text" name="label[]" value="<%= row['label'] %>" class="form-control"></td>
+            <td><input type="text" name="icon[]" value="<%= row['icon'] %>" class="form-control"></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
   <div class="mb-3">
     <label for="title_template" class="form-label">code</label>

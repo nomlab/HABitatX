@@ -6,12 +6,12 @@ default: &default
 
 development:
   <<: *default
-  database: db/habitatx.sqlite3
+  database: <%= ENV['MYSQL_DATABASE'] %>
 
 test:
   <<: *default
-  database: db/habitatx.sqlite3
+  database: <%= ENV['MYSQL_DATABASE'] %>
 
 production:
   <<: *default
-  database: db/habitatx.sqlite3
+  database: <%= ENV['MYSQL_DATABASE'] %>
