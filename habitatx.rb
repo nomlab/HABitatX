@@ -176,6 +176,20 @@ get '/datafile/new' do
   erb :'datafile/new'
 end
 
+get '/datafile/download/items' do
+  output_file = "#{__dir__}/db/excel/template_item.xlsx"
+  headers 'Content-Disposition' => "attachment; filename=template_item.xlsx"
+  send_file(output_file)
+  redirect "/datafile/new"
+end
+
+get '/datafile/download/things' do
+  output_file = "#{__dir__}/db/excel/template_thing.xlsx"
+  headers 'Content-Disposition' => "attachment; filename=template_thing.xlsx"
+  send_file(output_file)
+  redirect "/datafile/new"
+end
+
 # get '/datafile/:id' do
 post '/datafile' do
   @template = Template.all
@@ -262,6 +276,7 @@ get '/datafile/:id/edit' do
   datafile = Datafile.find_by(id: params[:id])
   @title_datafile = datafile["title_datafile"]
   @table = datafile["table"]
+
   template_id = datafile["template_id"]
 
   template_table = Template.find_by(id: template_id)
@@ -279,13 +294,14 @@ patch '/datafile/:id' do
   @template = Template.all
   datafile = Datafile.find_by(id: params[:id])
   title_datafile = params[:title_datafile]
+  keys_array = datafile["table"]["data"].flat_map(&:keys).uniq
   table_data = []
-  params[:itemID].each_with_index do |item_id, index|
-    table_data << {
-      "itemID" => item_id,
-      "label" => params[:label][index],
-      "icon" => params[:icon][index]
-    }
+  params[keys_array[0].to_sym].each_with_index do |item_id, index|
+    item = {}
+    keys_array.each do |key|
+      item[key] = params[key.to_sym][index]
+    end
+    table_data << item
   end
   params[:table] = { "data" => table_data }.to_json
   table = params[:table]
@@ -309,8 +325,6 @@ patch '/datafile/:id' do
   datafile.update(title_datafile: title_datafile, table: table_data, template_id: template_id)
 
   hash_json = table_data
-  puts "dedededede:#{hash_json.class}"
-  puts hash_json.class
   if selected_template["file_type"] == "things"
     post_things(hash_json, template_code, template_basename)
   else

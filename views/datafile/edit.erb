@@ -8,17 +8,17 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Item ID</th>
-            <th>Label</th>
-            <th>Icon</th>
+            <% @table["data"].first.keys.each do |key| %>
+              <th><%= key %></th>
+            <% end %>
           </tr>
         </thead>
       <tbody>
         <% @table["data"].each do |row| %>
           <tr>
-            <td><input type="text" name="itemID[]" value="<%= row['itemID'] %>" class="form-control"></td>
-            <td><input type="text" name="label[]" value="<%= row['label'] %>" class="form-control"></td>
-            <td><input type="text" name="icon[]" value="<%= row['icon'] %>" class="form-control"></td>
+            <% row.each do |key, value| %>
+              <td><input type="text" name="<%= key %>[]" value="<%= value %>" class="form-control"></td>
+            <% end %>
           </tr>
         <% end %>
       </tbody>

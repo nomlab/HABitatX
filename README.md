@@ -14,7 +14,7 @@ Template code defines the structure of a text file that configures the openHAB d
 Template code is an embedded type and creates a text file by embedding information obtained from external sources in specified locations. 
 It uses ERB, a template engine, as the format. 
 A spreadsheet is an interface that contains a list of information to be embedded in the template code. 
-It useu Excel as the format. 
+It uses Excel as the format. 
 
 HABitatX" is a term coined from "openHAB", "habitat", and "X" which represents a vision for the future.
 # Requirements
