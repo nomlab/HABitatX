@@ -1,0 +1,43 @@
+<%= form_with(model: item) do |form| %>
+  <% if item.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(item.errors.count, "error") %> prohibited this item from being saved:</h2>
+
+      <ul>
+        <% item.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <% if flash[:alert] %>
+    <div style="color: red">
+      <div class="alert alert-danger">
+        <h2>prohibited this item from being saved : <%= flash[:alert] %></h2>
+      </div>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :dsl_info, 'DSL_info', style: "display: block" %>
+    <%= form.text_area :dsl_info, rows: 10, cols: 150 %>
+  </div>
+
+  <% items_group_options = @items_group.present? ? @items_group.map { |items_group| [items_group.name, items_group.name] } : [] %>
+  <div>
+    <%= form.label :title_items_group, 'Items Group' %>
+    <%= form.select :title_items_group, options_for_select([['items group', '']] + items_group_options) %>
+  </div>
+
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,63 @@
+.template-container {
+    border: 1px solid #ccc; /* 枠の色 */
+    padding: 10px; /* 内側の余白 */
+    margin-bottom: 10px; /* 各テンプレートの間の余白 */
+    border-radius: 5px; /* 角を丸くする */
+    background-color: #f9f9f9; /* 背景色 */
+    display: inline-block;
+}
+.container {
+    border: 1px solid #ccc; /* 枠の色 */
+    padding: 10px; /* 内側の余白 */
+    margin-bottom: 10px; /* 各テンプレートの間の余白 */
+    border-radius: 5px; /* 角を丸くする */
+    background-color: #f9f9f9; /* 背景色 */
+}
+table {
+    font-family: "メイリオ", sans-serif;
+    border-collapse: collapse;
+    width: 80%;
+}
+td, th {
+    border: 1px solid #000000;
+    text-align: left;
+    padding: 8px;
+}
+pre {
+    background-color: #2d2d2d;
+    color: #f8f8f2;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    white-space: pre; /* 改行を保持する */
+}
+.button {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #666666;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #333;
+}
+
+.button.small {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.sort-select {
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}

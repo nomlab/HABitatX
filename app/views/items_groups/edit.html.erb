@@ -1,0 +1,43 @@
+<h1>Editing item</h1>
+
+<%= form_with(model: @items_group, method: :patch) do |form| %>
+  <table class="table">
+    <thead>
+      <tr>
+        <% @combined_dsl_info.first.keys.each do |key| %>
+          <th><%= key %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @combined_dsl_info.each_with_index do |row, row_index| %>
+        <tr>
+          <% row.each do |key, value| %>
+            <td>
+              <%= text_field_tag "items_group[dsl_info][#{row_index}][#{key}]", value %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+    <p>
+      <strong>openHAB ID prefix</strong>
+      <%= @template_select[:basename] %>
+    </p>
+    <p>
+      <strong>extension</strong>
+      <%= @template_select[:filetype] %>
+    </p>
+    <% template_options = @template.present? ? @template.map { |template| [template.name, template.name] } : [] %>
+    <div>
+      <%= form.label :title_template, 'Code' %>
+      <%= form.select :title_template, options_for_select([['code', '']] + template_options) %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.submit "Save", class: "button" %>
+    <%= link_to "Back", "/items_groups/#{params[:id]}", class: "button" %>
+  </div>
+<% end %>

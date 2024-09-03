@@ -1,0 +1,27 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Items_groups</h1>
+
+<div>
+  <%= link_to "Items", items_path %>
+</div>
+<div>
+  <%= link_to "New items_group", new_items_group_path, class: "button" %>
+</div>
+
+<div id="items_groups">
+  <% @items_groups.each do |items_group| %>
+    <div class="container">
+      <p>
+        <h1><%= items_group.name %></h1>
+      </p>
+      <p>
+        <%= link_to "Show", items_group, class: "button" %>
+      </p>
+    </div>
+  <% end %>
+</div>
+
+<div>
+  <%= link_to "back", root_path, class: "button" %>
+</div>

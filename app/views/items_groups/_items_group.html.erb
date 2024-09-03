@@ -1,0 +1,41 @@
+<div id="<%= dom_id items_group %>">
+  <p>
+    <h1><%= items_group.name %></h1>
+  </p>
+  <p>
+    <strong>dsl_info</strong>
+  </p>
+  <table border="1">
+    <tr>
+      <% @combined_dsl_info.first.keys.each do |key| %>
+        <th><%= key %></th>
+      <% end %>
+    </tr>
+    <% @combined_dsl_info.each do |item| %>
+      <tr>
+        <% item.each_value do |value| %>
+          <td><%= value %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+
+  <div>
+    <p>
+      <strong>template name：</strong>
+      <%= @template[:name] %>
+    </p>
+    <p>
+      <strong>openHAB ID prefix：</strong>
+      <%= @template[:basename] %>
+    </p>
+    <p>
+      <strong>extension：</strong>
+      <%= @template[:filetype] %>
+    </p>
+    <p>
+      <strong>Template code</strong>
+      <pre><code class="language-ruby"><%= @template[:content] %></code></pre>
+    </p>
+  </div>
+</div>

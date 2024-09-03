@@ -1,0 +1,31 @@
+<h1>Editing item</h1>
+
+<%= form_with(model: @item, method: :patch) do |form| %>
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <% @dsl_info_hash.keys.each do |key| %>
+            <th><%= key %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <% @dsl_info_hash.each do |key, value| %>
+            <td>
+              <%= text_field_tag "dsl_info[#{key}]", value %>
+            </td>
+          <% end %>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div>
+    <%= form.submit %>
+  </div>
+  <div>
+    <%= link_to "Back", @item, class: "button" %>
+  </div>
+<% end %>

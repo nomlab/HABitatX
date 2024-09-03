@@ -19,8 +19,9 @@ Excel 形式を用いる．
 "HABitatX"は，"openHAB"，"habitat"をもとに作られた造語である．
 この名前は，openHAB を表す"HAB"と生息地を表す"habitat"，未来への展望を表す"X"を組み合わせたものである．
 # Requirements
-+ Ruby 3.x
-+ openHAB 3~
++ Ruby 3.3.3
++ Ruby on Rails 7.1.3.4
++ openHAB 3.4.3 ~
   + https://www.openhab.org/
 + RDBMS (Relational Data Base Management System)
 
@@ -42,23 +43,23 @@ Excel 形式を用いる．
 # Launch
 ## 事前準備
 1. `.env.example` をコピーして `.env` を作成する
-2. `.env` の `OPENHAB_PATH`，`MYSQL`，`MYSQL_DATABASE` をそれぞれ自身の情報に置き換える
-3. 任意の RDBMS の gem について `Gemfile` と `habitatx.rb` に追加する
+2. `.env` の `OPENHAB_PATH`，`AUTH_SERVER_PATH`，`PUB_KEY` をそれぞれ自身の情報に置き換える
+3. 任意の RDBMS の gem について `Gemfile` に追加し，その他 RDBMS の情報を適宜，必要場所に追加，編集する
 4. `bundle install`する
    ```bash
    $ bundle install
    ```
 5. DBを作成する
    ```bash
-   $ bundle exec rake db:migrate
+   $ rails db:migrate
    ```
 
 ## Linux
 1. 起動
 ```bash
-$ bundle exec ruby habitatx.rb
+$ bin/rails server
 ```
-起動後，ブラウザ上で http://localhost:4567 を開くと HABitatX の画面が開く
+起動後，ブラウザ上で http://localhost:8080 を開くと HABitatX の画面が開く
 
 ## Docker
 1. コンテナイメージ作成

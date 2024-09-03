@@ -1,0 +1,38 @@
+<%= form_with(model: template) do |form| %>
+  <% if template.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(template.errors.count, "error") %> prohibited this template from being saved:</h2>
+
+      <ul>
+        <% template.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, "template title", style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :basename, "openHAB prefix ID", style: "display: block" %>
+    <%= form.text_field :basename %>
+  </div>
+
+  <div>
+    <%= form.label :filetype, "extension", style: "display: block" %>
+    <%= form.select :filetype, [['things', 'things'], ['items', 'items'], ['rules', 'rules']] %>
+  </div>
+
+  <div>
+    <%= form.label :content, "Template Code", style: "display: block" %>
+    <%= form.text_area :content, rows: 10, cols: 150 %>
+  </div>
+
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

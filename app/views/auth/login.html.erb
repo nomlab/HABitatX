@@ -1,0 +1,20 @@
+<h1>Login</h1>
+
+<!-- Flashメッセージの表示 -->
+<% if flash[:notice] %>
+  <p class="notice"><%= flash[:notice] %></p>
+<% end %>
+
+<% if flash[:alert] %>
+  <p class="alert"><%= flash[:alert] %></p>
+<% end %>
+
+<form action="/login" method="post">
+    <label>ログインID</label>
+    <input type="text" name="name" required>
+
+    <label>パスワード</label>
+    <input type="password" name="password" required>
+
+    <button type="submit">ログイン</button>
+</form>

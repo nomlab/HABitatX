@@ -1,0 +1,48 @@
+<div id="<%= dom_id item %>">
+  <p>
+    <h1><%= item.name %></h1>
+  </p>
+    <p>
+      <strong>items group：</strong>
+      <%= @temp[:name] %>
+    </p>
+  <p>
+    <strong>dsl_info</strong>
+  </p>
+  <% dsl_info_hash = JSON.parse(item.dsl_info) %>
+  <table border="1">
+    <tr>
+      <% dsl_info_hash.keys.each do |key| %>
+        <th><%= key %></th>
+      <% end %>
+    </tr>
+    <tr>
+      <% dsl_info_hash.each_value do |value| %>
+        <td><%= value %></td>
+      <% end %>
+    </tr>
+  </table>
+  <div>
+    <p>
+      <strong>items group：</strong>
+      <%= @temp[:name] %>
+    </p>
+    <p>
+      <strong>template name：</strong>
+      <%= @template_id[:name] %>
+    </p>
+    <p>
+      <strong>openHAB ID prefix：</strong>
+      <%= @template_id[:basename] %>
+    </p>
+    <p>
+      <strong>extension：</strong>
+      <%= @template_id[:filetype] %>
+    </p>
+    <p>
+      <strong>Template code</strong>
+      <pre><code class="language-ruby"><%= @template_id[:content] %></code></pre>
+    </p>
+  </div>
+
+</div>

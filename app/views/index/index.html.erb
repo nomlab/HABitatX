@@ -1,0 +1,23 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>HABitatX</h1>
+
+<div style="text-align: right;">
+  <% if session[:user].present? %>
+    <%= link_to "Logout", logout_path, data: {turbo_method: :delete}, style: "margin-left: 10px;" %>
+  <% else %>
+    <%= link_to "Login", login_path, style: "margin-left: 10px;" %>
+  <% end %>
+</div>
+
+<div>
+  <%= link_to "Templates", templates_path %>
+</div>
+
+<div>
+  <%= link_to "Items", items_path %>
+</div>
+
+<div>
+  <%= link_to "Items Group", items_groups_path %>
+</div>

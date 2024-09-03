@@ -1,0 +1,20 @@
+<div id="<%= dom_id template %>">
+  <h1>
+    <%= template.name %>
+  </h1>
+
+  <p>
+    <strong>openHAB prefix ID:</strong>
+    <%= template.basename %>
+  </p>
+
+  <p>
+    <strong>extension:</strong>
+    <%= template.filetype %>
+  </p>
+
+  <p>
+    <strong>Template code</strong>
+    <pre><code class="language-ruby"><%= template.content %></code></pre>
+  </p>
+</div>

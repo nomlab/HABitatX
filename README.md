@@ -18,8 +18,9 @@ It uses Excel as the format.
 
 HABitatX" is a term coined from "openHAB", "habitat", and "X" which represents a vision for the future.
 # Requirements
-+ Ruby 3.x
-+ openHAB 3~
++ Ruby 3.3.3
++ Ruby on Rails 7.1.3.4
++ openHAB 3.4.3 ~
   + https://www.openhab.org/
 + RDBMS (Relational Data Base Management System)
 
@@ -42,23 +43,23 @@ We explain the installation of SQLite3 as an example.
 # Launch
 ## Preliminary Preparations
 1. Copy `.env.example` file and create `.env` file.
-2. Replace `OPENHAB_PATH`, `MYSQL`, and `MYSQL_DATABASE` in the `.env` file with your own information. 
-3. Add any RDBMS gem you want to use to `Gemfile` and `habitatx.rb`.
+2. Replace  `OPENHAB_PATH`，`AUTH_SERVER_PATH` and `PUB_KEY` in the `.env` file with your own information. 
+3. Add any RDBMS gem to the `Gemfile`, and add or edit other RDBMS information as needed.
 4. bundle install
    ```bash
    $ bundle install
    ```
 5. Generate DB
    ```bash
-   $ bundle exec rake db:migrate
+   $ rails db:migrate
    ```
 
 ## Linux
 1. Launch
 ```bash
-$ bundle exec ruby habitatx.rb
+$ bin/rails server
 ```
-After launching, open http://localhost:4567 in your browser to open the HABitatX screen.
+After launching, open http://localhost:8080 in your browser to open the HABitatX screen.
 
 ## Docker
 1. Generate Container Image

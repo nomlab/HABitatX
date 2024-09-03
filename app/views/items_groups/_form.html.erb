@@ -1,0 +1,41 @@
+<%= form_with(model: items_group) do |form| %>
+  <% if items_group.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(items_group.errors.count, "error") %> prohibited this items_group from being saved:</h2>
+      <ul>
+        <% items_group.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if flash[:alert] %>
+    <div style="color: red">
+      <div class="alert alert-danger">
+        <h2>prohibited this items_group from being saved : <%= flash[:alert] %></h2>
+      </div>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :dsl_info, 'Spreadsheet', style: "display: block" %>
+    <%= form.file_field :dsl_info, accept: '.xls, .xlsx', style: "display: block" %>
+  </div>
+
+  <% template_options = @template.present? ? @template.map { |template| [template.name, template.name] } : [] %>
+  <div>
+    <%= form.label :title_template, 'Code' %>
+    <%= form.select :title_template, options_for_select([['code', '']] + template_options) %>
+  </div>
+
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

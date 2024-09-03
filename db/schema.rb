@@ -10,20 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_20_064650) do
-  create_table "datafiles", force: :cascade do |t|
-    t.string "title_datafile"
-    t.json "table"
+ActiveRecord::Schema[7.1].define(version: 2024_08_07_035958) do
+  create_table "items", force: :cascade do |t|
+    t.string "name"
+    t.json "dsl_info"
+    t.integer "items_group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "items_groups", force: :cascade do |t|
+    t.string "name"
     t.integer "template_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "templates", force: :cascade do |t|
-    t.string "title_template"
+    t.string "name"
+    t.string "basename"
+    t.string "filetype"
     t.text "content"
-    t.text "basename"
-    t.text "file_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
