@@ -33,48 +33,39 @@ Excel 形式を用いる．
    $ git clone https://github.com/SenoOh/HABitatX.git
    ```
 ## Install RDBMS
-本システムは DB との接続に`ActiveRecord`を使用しているため，任意のリレーショナルデータベース管理システム(`RDBMS`)を使用できる．今回は例として SQLite3 のインストールについて説明する．
+本システムは DB との接続に`ActiveRecord`を使用しているため，任意のリレーショナルデータベース管理システム(`RDBMS`)を使用できる．Docker で動かす際は不要である．今回は例として SQLite3 のインストールについて説明する．
 1. aptでインストールする
    ```bash
    $ sudo apt install sqlite3
    ```
-
 
 # Launch
 ## 事前準備
 1. `.env.example` をコピーして `.env` を作成する
 2. `.env` の `OPENHAB_PATH`，`AUTH_SERVER_PATH`，`PUB_KEY` をそれぞれ自身の情報に置き換える
 3. 任意の RDBMS の gem について `Gemfile` に追加し，その他 RDBMS の情報を適宜，必要場所に追加，編集する
-4. `bundle install`する
+
+## Linux
+1. `bundle install`する
    ```bash
    $ bundle install
    ```
-5. DBを作成する
+2. DBを作成する
    ```bash
    $ rails db:migrate
    ```
-
-## Linux
-1. 起動
+3. 起動
 ```bash
 $ bin/rails server
 ```
-起動後，ブラウザ上で http://localhost:8080 を開くと HABitatX の画面が開く
+起動後，ブラウザ上で http://localhost:3000 を開くと HABitatX の画面が開く
 
 ## Docker
 1. コンテナイメージ作成
 ```bash
-$ docker build -t habitatx_docker .
+$ ./start.sh
 ```
-2. 起動 (openHAB がコンテナで動いていない場合)
-```shell
-$ docker run -it -p 4567:4567 --name habitatx -v ${PWD}/:/var/www habitatx_docker
-```
-3. 起動 (openHAB がコンテナで動いている場合)
-```shell
-$ docker run -it -p 4567:4567 --name habitatx -v ${PWD}/:/var/www --volumes-from <openHABのコンテナ名> habitatx_docker
-```
-起動後，ブラウザ上で http://localhost:4567 を開くと HABitatX の画面が開く
+起動後，ブラウザ上で http://localhost:3000 を開くと HABitatX の画面が開く
 
 # Usage
 ![Overview](./doc/HABitatX.svg)

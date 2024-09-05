@@ -33,7 +33,7 @@ HABitatX" is a term coined from "openHAB", "habitat", and "X" which represents a
    ```
 ## Install RDBMS
 This system uses `ActiveRecord` for DB connection, so it can use relational database management system (`RDBMS`). 
-We explain the installation of SQLite3 as an example. 
+When you use `Docker` to launch HABitatX, you need not to install it. We explain the installation of SQLite3 as an example. 
 1. Install SQlite3
    ```bash
    $ sudo apt install sqlite3
@@ -45,36 +45,28 @@ We explain the installation of SQLite3 as an example.
 1. Copy `.env.example` file and create `.env` file.
 2. Replace  `OPENHAB_PATH`，`AUTH_SERVER_PATH` and `PUB_KEY` in the `.env` file with your own information. 
 3. Add any RDBMS gem to the `Gemfile`, and add or edit other RDBMS information as needed.
-4. bundle install
+
+## Linux
+1. bundle install
    ```bash
    $ bundle install
    ```
-5. Generate DB
+2. Generate DB
    ```bash
    $ rails db:migrate
    ```
-
-## Linux
-1. Launch
+3. Launch
 ```bash
 $ bin/rails server
 ```
-After launching, open http://localhost:8080 in your browser to open the HABitatX screen.
+After launching, open http://localhost:3000 in your browser to open the HABitatX screen.
 
 ## Docker
-1. Generate Container Image
+1. Launch
 ```bash
-$ docker build -t habitatx_docker .
+$ ./start.sh
 ```
-2. Launch (If openHAB is not running in a container)
-```shell
-$ docker run -it -p 4567:4567 --name habitatx -v ${PWD}/:/var/www habitatx_docker
-```
-3. Launch (If openHAB is running in a container)
-```shell
-$ docker run -it -p 4567:4567 --name habitatx -v ${PWD}/:/var/www --volumes-from <openHABのコンテナ名> habitatx_docker
-```
-After launching, open http://localhost:4567 in your browser to open the HABitatX screen
+After launching, open http://localhost:3000 in your browser to open the HABitatX screen.
 
 # Usage
 ![Overview](./doc/HABitatX.svg)
