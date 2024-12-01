@@ -2,9 +2,6 @@
   <p>
     <h1><%= items_group.name %></h1>
   </p>
-  <p>
-    <strong>dsl_info</strong>
-  </p>
   <table border="1">
     <tr>
       <% @combined_dsl_info.first.keys.each do |key| %>
@@ -21,18 +18,6 @@
   </table>
 
   <div>
-    <p>
-      <strong>template name：</strong>
-      <%= @template[:name] %>
-    </p>
-    <p>
-      <strong>openHAB ID prefix：</strong>
-      <%= @template[:basename] %>
-    </p>
-    <p>
-      <strong>extension：</strong>
-      <%= @template[:filetype] %>
-    </p>
     <p>
       <strong>Template code</strong>
       <pre><code class="language-ruby"><%= @template[:content] %></code></pre>

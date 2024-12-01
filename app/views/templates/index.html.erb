@@ -2,15 +2,13 @@
 
 <h1>Templates</h1>
 
-<header>
-  <%= link_to "New template", new_template_path, class: "button" %>
-  <div class="sort-dropdown">
-    <%= form_with url: templates_path, method: :get, local: true do %>
-      <%= select_tag :sort, options_for_select([['Sort by Things', 'things'], ['Sort by Items', 'items'], ['Sort by Rules', 'rules'], ['Show All', 'all']], selected: params[:sort]), include_blank: 'Select sort option', class: 'sort-select' %>
-      <%= submit_tag 'Sort', class: 'button small' %>
-    <% end %>
-  </div>
-</header>
+<%= link_to "New Template", new_template_path, class: "button" %>
+<div class="sort-dropdown">
+  <%= form_with url: templates_path, method: :get, local: true do %>
+    <%= select_tag :sort, options_for_select([['Sort by Things', 'things'], ['Sort by Items', 'items'], ['Sort by Rules', 'rules'], ['Show All', 'all']], selected: params[:sort]), include_blank: 'Select sort option', class: 'sort-select' %>
+    <%= submit_tag 'Sort', class: 'button small' %>
+  <% end %>
+</div>
 
 <div id="templates">
   <% @templates.each do |template| %>
@@ -21,8 +19,4 @@
       </p>
     </div>
   <% end %>
-</div>
-
-<div>
-  <%= link_to "back", root_path, class: "button" %>
 </div>

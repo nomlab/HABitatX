@@ -1,63 +1,33 @@
-require 'net/http'
-
 class AuthController < ApplicationController
-  skip_before_action :verify_authenticity_token
-  before_action :redirect_if_logged_in, only: [:login]
-
+  skip_before_action :admin_only
+  skip_before_action :authorize_request
+  def login_form
+  end
   def login
-    if request.post?
-      name = params[:name]
-      password = params[:password]
+    user = User.find_by(name: params[:name])
 
-      token = request_jws_from_auth_server(name, password)
-      p token
+    if user && user.authenticate(params[:password])
+      payload = {
+        id: user.id,
+        name: user.name,
+        admin: user.admin,
+        exp: 30.minutes.from_now.to_i
+      }
+      token = JWT.encode(payload, Rails.application.credentials.secret_key_base, 'HS256')
 
-      if token.present?
-        payload = decode_jws(token)[0]
-        p payload
-        if payload.present?
-          session[:user] = { 'name' => payload['iss'], 'admin' => payload['admin'], 'expires_at' => Time.at(payload['exp']) }
-          redirect_to root_path, notice: 'ログインに成功しました。'
-        else
-          flash.now[:alert] = 'トークンのデコードに失敗しました。'
-          render :login
-        end
-      else
-        flash.now[:alert] = '認証サーバーへの接続に失敗しました。'
-        render :login
-      end
+      # セッションにトークンを保存
+      session[:token] = token
+      
+      # ログイン成功後にroot_pathへリダイレクト
+      redirect_to root_path
     else
-      render :login
+      flash.now[:alert] = 'Invalid name or password'
+      render :login_form
     end
   end
 
   def logout
-    reset_session
-    redirect_to login_path, notice: 'ログアウトしました。'
-  end
-
-  private
-
-  def request_jws_from_auth_server(name, password)
-    uri = URI.parse("#{ENV['AUTH_SERVER_PATH']}")
-    header = { 'Content-Type': 'application/json' }
-    body = { name: name, password: password }.to_json
-
-    response = Net::HTTP.post(uri, body, header)
-
-    if response.is_a?(Net::HTTPSuccess)
-      JSON.parse(response.body)['token']
-    else
-      nil
-    end
-  end
-
-  def decode_jws(token)
-    pub_key = ENV['PUB_KEY']
-    JWT.decode(token, pub_key, true, { algorithm: 'HS256' })
-  end
-
-  def redirect_if_logged_in
-    redirect_to root_path if session[:user].present?
+    session.delete(:token)
+    redirect_to login_path
   end
 end

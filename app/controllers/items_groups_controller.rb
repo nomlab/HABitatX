@@ -1,7 +1,4 @@
 class ItemsGroupsController < ApplicationController
-  before_action :check_session_expiry, only: [:show, :new, :edit, :destroy]
-  before_action :require_login, only: [:show, :new, :edit, :destroy]
-  before_action :require_admin, only: [:new, :edit, :destroy]
   before_action :set_items_group, only: %i[ show edit update destroy ]
 
   # GET /items_groups or /items_groups.json
@@ -95,7 +92,7 @@ class ItemsGroupsController < ApplicationController
         end
       end
       
-      redirect_to items_groups_path, notice: "Items were successfully created."
+      redirect_to items_group_url(@items_group)
     rescue => e
       Rails.logger.error "Error processing the file: #{e.message}"
       flash[:alert] = "An error occurred while processing the file."
@@ -175,25 +172,5 @@ class ItemsGroupsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def items_group_params
       params.require(:items_group).permit(:name, :template_id)
-    end
-
-    def require_login
-      unless session[:user]
-        redirect_to login_path, alert: 'ログインが必要です。'
-      end
-    end
-  
-    def require_admin
-      unless session[:user] && session[:user]['admin']
-        redirect_to items_groups_path, notice: 'このアクションを実行する権限がありません。'
-      end
-    end
-
-    def check_session_expiry
-      if session[:user] && session[:user]['expires_at'] && session[:user]['expires_at'] < Time.current
-        # セッションの有効期限が切れている場合、ログアウト処理を実行
-        reset_session
-        redirect_to login_path, alert: 'セッションが期限切れになりました。再度ログインしてください。'
-      end
     end
 end

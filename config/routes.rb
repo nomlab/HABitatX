@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :templates
   resources :items
   resources :items_groups
+  resources :users
 
   # get '/items_groups', to: 'items_groups#index', as: :items_groups
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -11,17 +12,13 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   
   # ログインページを表示するためのルート
-  get '/login', to: 'auth#login'
-
-  # ログインフォームからPOSTされたデータを処理するためのルート
+  get '/login', to: 'auth#login_form', as: 'login'
   post '/login', to: 'auth#login'
 
   # ログアウトを行うためのルート
   delete '/logout', to: 'auth#logout', as: 'logout'
 
-  root 'index#index', as: 'root'
-  
-  
+  root 'items_groups#index', as: 'root'
   
   
   # get "/login", to: 'auth#login', as: 'login'

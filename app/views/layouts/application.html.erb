@@ -8,9 +8,81 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
-  </head>
+    <style>
+      header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background-color: #333;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+        z-index: 1000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
+      nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+      }
+
+      nav ul li {
+        margin: 0 15px;
+      }
+
+      nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      nav ul li a:hover {
+        text-decoration: underline;
+      }
+
+      .auth-links {
+        margin-right: 20px;
+      }
+
+      .auth-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        margin-left: 10px;
+      }
+
+      .auth-links a:hover {
+        text-decoration: underline;
+      }
+
+      body {
+        margin-top: 50px; /* ヘッダーの高さ分、コンテンツを下にずらす */
+      }
+    </style>
+  </head>
   <body>
+    <header>
+      <nav>
+        <ul>
+          <li><%= link_to 'Templates', templates_path %></li>
+          <li><%= link_to 'Items', items_path %></li>
+          <li><%= link_to 'Items Groups', items_groups_path %></li>
+          <li><%= link_to 'about HABitatX (GitHub)', "https://github.com/nomlab/HABitatX" %></li>
+        </ul>
+      </nav>
+      <div class="auth-links">
+        <% if session[:token].present? %>
+          <%= link_to "Logout", logout_path, data: {turbo_method: :delete} %>
+        <% else %>
+          <%= link_to "Login", login_path %>
+        <% end %>
+    </div>
+    </header>
+
     <%= yield %>
   </body>
 </html>

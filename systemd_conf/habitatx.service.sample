@@ -1,0 +1,16 @@
+[Unit]
+Description=habitatx
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=nomlab
+WorkingDirectory=your_path
+ExecStart=your_path/start.sh start
+ExecStop=your_path/start.sh stop
+
+Type=simple
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
