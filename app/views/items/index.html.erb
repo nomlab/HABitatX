@@ -1,0 +1,29 @@
+<% if notice %>
+  <div class="notice"><%= notice %></div>
+<% end %>
+
+<h1 class="page-title">Items</h1>
+
+<div class="action-links">
+  <%= link_to "New Item", new_item_path, class: "button large primary" %>
+</div>
+
+<div id="items">
+  <% if @items.any? %>
+    <% @items.each do |item| %>
+      <div class="container">
+        <h1><%= item.name %></h1>
+        <p><strong>テンプレート:</strong> <%= item.template.name %></p>
+        <div class="action-links">
+          <%= link_to "詳細を見る", item, class: "button" %>
+          <%= link_to "編集", edit_item_path(item), class: "button secondary" %>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="container">
+      <h1>アイテムが見つかりません</h1>
+      <p>まだアイテムが作成されていません。新しいアイテムを作成してください。</p>
+    </div>
+  <% end %>
+</div>

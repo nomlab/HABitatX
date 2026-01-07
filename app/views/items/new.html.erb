@@ -1,0 +1,11 @@
+<h1 class="page-title">新しいアイテムを作成</h1>
+
+<% if flash[:alert] %>
+  <div class="alert-box">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<div class="container">
+  <%= render "form", item: @item %>
+</div>

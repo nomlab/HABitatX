@@ -1,0 +1,21 @@
+<div id="<%= dom_id template %>" class="container">
+  <div class="info-block">
+    <h2 class="section-title">Name</h2>
+    <p class="section-content"><%= template.name %></p>
+  </div>
+
+  <div class="info-block">
+    <h2 class="section-title">Basename</h2>
+    <p class="section-content"><%= template.basename %></p>
+  </div>
+
+  <div class="info-block">
+    <h2 class="section-title">Filetype</h2>
+    <p class="section-content"><%= template.filetype %></p>
+  </div>
+
+  <div class="info-block">
+    <h2 class="section-title">Content</h2>
+    <pre class="code-block"><code><%= h template.content %></code></pre>
+  </div>
+</div>

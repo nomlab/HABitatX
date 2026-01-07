@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HABitatX</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body>
+    <header>
+      <h1>HABitatX</h1>
+      <nav>
+        <ul>
+          <li><%= link_to 'Templates', templates_path %></li>
+          <li><%= link_to 'Items', items_path %></li>
+          <li><%= link_to 'about HABitatX (GitHub)', "https://github.com/nomlab/HABitatX", target: "_blank" %></li>
+          <li><%= link_to 'openHAB', ENV['OPENHAB_LINK'], target: "_blank" %></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="main-container">
+      <%= yield %>
+    </main>
+  </body>
+</html>

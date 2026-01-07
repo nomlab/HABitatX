@@ -1,0 +1,89 @@
+<h1 class="page-title">アイテムを編集</h1>
+
+<% if flash[:alert] %>
+  <div class="alert-box">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<div class="container">
+  <%= form_with(
+    model: @item,
+    html: { multipart: true },
+    data: {
+      controller: "editable-table",
+      action: "submit->editable-table#updateDslInfo"
+    },
+    local: true
+  ) do |form| %>
+
+    <% if @item.errors.any? %>
+      <div class="error-box">
+        <h2>エラーが発生しました (<%= pluralize(@item.errors.count, "error") %>):</h2>
+        <ul>
+          <% @item.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= form.label :name, "アイテム名", class: "form-label" %>
+      <%= form.text_field :name, class: "form-input", placeholder: "アイテムの名前を入力してください" %>
+    </div>
+
+    <div class="info-block">
+      <h2 class="section-title">スプレッドシートデータ</h2>
+      
+      <% data = JSON.parse(@item.dsl_info) rescue [] %>
+      <% headers = data.flat_map(&:keys).uniq %>
+
+      <div class="table-wrapper">
+        <table id="editable-table" class="styled-table">
+          <thead>
+            <tr>
+              <% headers.each do |key| %>
+                <th><%= key.capitalize %></th>
+              <% end %>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody data-editable-table-target="tableBody">
+            <% data.each do |row| %>
+              <tr>
+                <% headers.each do |key| %>
+                  <td contenteditable="true"><%= row[key] %></td>
+                <% end %>
+                <td>
+                  <button type="button" class="delete-button" data-action="click->editable-table#deleteRow">削除</button>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="action-links">
+        <button type="button" class="button secondary" data-action="click->editable-table#addRow">行を追加</button>
+      </div>
+    </div>
+
+    <%= form.hidden_field :dsl_info, id: "dsl_info_field", data: { editable_table_target: "hiddenField" } %>
+    
+    <% template_options = @template.present? ? @template.map { |template| [template.name, template.name] } : [] %>
+    <div class="form-group">
+      <%= form.label :title_template, 'テンプレート', class: "form-label" %>
+      <%= form.select :title_template, 
+          options_for_select([['テンプレートを選択してください', '']] + template_options), 
+          {}, 
+          { class: "form-select" } %>
+    </div>
+
+    <div class="form-actions">
+      <%= form.submit "保存", class: "button large success" %>
+      <%= link_to "詳細を見る", @item, class: "button" %>
+      <%= link_to "一覧に戻る", items_path, class: "button secondary" %>
+    </div>
+  <% end %>
+</div>

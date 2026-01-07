@@ -1,0 +1,42 @@
+<div id="<%= dom_id item %>" class="container">
+  <div class="info-block">
+    <h2 class="section-title">アイテム名</h2>
+    <p class="section-content"><%= item.name %></p>
+  </div>
+
+  <div class="info-block">
+    <h2 class="section-title">DSL情報</h2>
+
+    <% data = JSON.parse(@item.dsl_info) %>
+    <% headers = data.flat_map(&:keys).uniq %>
+
+    <div class="table-wrapper">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <% headers.each do |key| %>
+              <th><%= key.capitalize %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% data.each do |row| %>
+            <tr>
+              <% headers.each do |key| %>
+                <td><%= row[key] %></td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="info-block">
+    <h2 class="section-title">テンプレート</h2>
+    <div class="section-content">
+      <strong>テンプレート名:</strong> <%= @template.name %>
+    </div>
+    <pre class="code-block"><code><%= h @template.content %></code></pre>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+[Unit]
+Description=HABitatX Docker Compose Service (Development)
+Requires=docker.service
+After=docker.service
+
+[Service]
+WorkingDirectory=/path/to/your/directory
+EnvironmentFile=/path/to/your/file
+ExecStart=/home/senoo/git/HABitatX/launch.sh start
+ExecStop=/home/senoo/git/HABitatX/launch.sh stop
+
+Type=simple
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

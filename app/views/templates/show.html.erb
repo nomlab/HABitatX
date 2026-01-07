@@ -1,0 +1,17 @@
+<% if notice %>
+  <div class="notice"><%= notice %></div>
+<% end %>
+
+<h1 class="page-title">テンプレート詳細</h1>
+
+<%= render @template %>
+
+<div class="action-links">
+  <%= link_to "編集", edit_template_path(@template), class: "button" %>
+  <%= link_to "一覧に戻る", templates_path, class: "button secondary" %>
+  
+  <%= button_to "削除", @template, 
+        method: :delete,
+        data: { turbo_confirm: "本当にこのテンプレートを削除しますか？この操作は取り消せません。" },
+        class: "delete-button" %>
+</div>

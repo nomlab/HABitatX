@@ -1,0 +1,32 @@
+<% if notice %>
+  <div class="notice"><%= notice %></div>
+<% end %>
+
+<h1 class="page-title">Templates</h1>
+
+<div class="action-links">
+  <%= link_to "New Template", new_template_path, class: "button large primary" %>
+</div>
+
+<div id="templates">
+  <% if @templates.any? %>
+    <% @templates.each do |template| %>
+      <div class="container">
+        <h1><%= template.name %></h1>
+        <div class="info-block">
+          <h2 class="section-title">Content</h2>
+          <pre class="code-block"><code><%= h template.content %></code></pre>
+        </div>
+        <div class="action-links">
+          <%= link_to "詳細を見る", template, class: "button" %>
+          <%= link_to "編集", edit_template_path(template), class: "button secondary" %>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="container">
+      <h1>テンプレートが見つかりません</h1>
+      <p>まだテンプレートが作成されていません。新しいテンプレートを作成してください。</p>
+    </div>
+  <% end %>
+</div>
