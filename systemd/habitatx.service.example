@@ -6,8 +6,8 @@ After=docker.service
 [Service]
 WorkingDirectory=/path/to/your/directory
 EnvironmentFile=/path/to/your/file
-ExecStart=/home/senoo/git/HABitatX/launch.sh start
-ExecStop=/home/senoo/git/HABitatX/launch.sh stop
+ExecStart=/path/to/your/directory/launch.sh start
+ExecStop=/path/to/your/directory/launch.sh stop
 
 Type=simple
 Restart=on-failure
