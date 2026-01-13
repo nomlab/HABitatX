@@ -1,21 +1,24 @@
+# 開発環境: docker compose up -d
+# 本番環境: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
 services:
-  habitatx:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        UID: ${UID:-1000}
-        RAILS_ENV: ${RAILS_ENV:-development}
-    container_name: habitatx
-    ports:
-      - "${PORT:-9000}:${PORT:-9000}"
-    volumes:
-      - ./storage:/home/habitatx/storage
-      - ./log:/home/habitatx/log
-      - ./tmp:/home/habitatx/tmp
-    environment:
-      - RAILS_ENV=${RAILS_ENV:-development}
-      - PORT=${PORT:-9000}
-    restart: unless-stopped
-    stdin_open: true
-    tty: true
+   habitatx:
+     build:
+       context: .
+       dockerfile: ${DOCKERFILE:-Dockerfile.dev}
+       args:
+         UID: ${UID:-1000}
+         RAILS_ENV: ${RAILS_ENV:-development}
+     container_name: habitatx
+     ports:
+       - "${PORT:-9000}:${PORT:-9000}"
+     volumes:
+       - ./storage:/home/habitatx/storage
+       - ./log:/home/habitatx/log
+       - ./tmp:/home/habitatx/tmp
+     environment:
+       - RAILS_ENV=${RAILS_ENV:-development}
+       - PORT=${PORT:-9000}
+     restart: unless-stopped
+     stdin_open: true
+     tty: true

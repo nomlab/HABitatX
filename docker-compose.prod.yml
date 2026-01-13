@@ -1,0 +1,18 @@
+# Production環境用のDocker Compose設定
+# 使用方法: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+services:
+  habitatx:
+    build:
+      dockerfile: Dockerfile.prod
+    ports:
+      - "9001:9001"
+    environment:
+      - RAILS_ENV=production
+      - PORT=9001
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+    volumes:
+      # Production環境ではコードをマウントしない（storage, log, tmpのみ）
+      - ./storage:/home/habitatx/storage
+      - ./log:/home/habitatx/log
+      - ./tmp:/home/habitatx/tmp

@@ -36,6 +36,4 @@
 
 .ruby-lsp.yml
 
-/systemd/habitatx-prod.service
-/docker-compose.prod.yml
 /vendor/
