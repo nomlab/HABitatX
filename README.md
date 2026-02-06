@@ -43,8 +43,17 @@ When you use `Docker` to launch HABitatX, you need not to install it. We explain
 # Launch
 ## Preliminary Preparations
 1. Copy `.env.example` file and create `.env` file.
-2. Replace  `OPENHAB_PATH`，`AUTH_SERVER_PATH` and `PUB_KEY` in the `.env` file with your own information. 
-3. Add any RDBMS gem to the `Gemfile`, and add or edit other RDBMS information as needed.
+2. Replace `OPENHAB_PATH` and `OPENHAB_LINK` in the `.env` file with your own information.
+3. When using containers, complete the port and UID settings in the `.env` file.
+4. For production environment, set `RAILS_ENV` to `production` in the `.env` file and generate `SECRET_KEY_BASE`.
+
+## Docker (Recommended)
+1. Build container image
+```bash
+$ ./start.sh
+```
+After launching, open http://localhost:9000 in your browser to open the HABitatX screen.
+* For production environment, open http://localhost:9100 in your browser after launching.
 
 ## Linux
 1. bundle install
@@ -57,47 +66,33 @@ When you use `Docker` to launch HABitatX, you need not to install it. We explain
    ```
 3. Launch
 ```bash
-$ bin/rails server
+$ bundle exec rails server
 ```
-After launching, open http://localhost:3000 in your browser to open the HABitatX screen.
-
-## Docker
-1. Launch
-```bash
-$ ./start.sh
-```
-After launching, open http://localhost:3000 in your browser to open the HABitatX screen.
+After launching, open http://localhost:9000 in your browser to open the HABitatX screen.
 
 # Usage
-![Overview](./doc/HABitatX.svg)
-
-## Demo movie
-1. Generate template code.
-   ```bash
-   Switch <%= code['itemID'] %> "<%= code['label'] %>" <<%= code['icon'] %>>
+![Overview](./docs/HABitatX_overview.png)
+1. Create template code
+   ```ruby
+   table.each do |member|
+      equipment(name: "#{member[:name]}", label: "#{member[:label]}", icon: "Man_1", parent: "room106") do
+         point(name: "#{member[:name]}_position", label: "#{member[:label]} Position", type: "String", icon: "motion", parent: "positions", tags: ["Point", "Presence"])
+         point(name: "#{member[:name]}_status", label: "#{member[:label]} Status", type: "String", icon: "status", tags: ["Point", "Presence"])
+      end
+   end
    ```
-2. Set title, code, openHAB ID prefix, and extension in the template operator.
+2. Set template name, base name, file type, and Content in the template management section
+![Template](./docs/make_template.png)
+* Code is the template code
+* Create configuration DSL name by combining base name and template name
+* File type is the extension to select
+* Content is the template code created in step 1
 
-   https://www.youtube.com/watch?v=XqZT1b-lbVg
+3. Create spreadsheet
 
-   ・code is template code.
-   
-   ・Create a text file name by combining openHAB ID prefix and the ID of each device.
-   
-   ・For "extension", select the extension from the pull-down menu.
+* See [spreadsheet](https://github.com/nomlab/habdsl?tab=readme-ov-file#spreadsheet) for how to create
 
-3. Generate spreadsheet.
+4. Set item name, spreadsheet, and template in the item management section
+![Device](./docs/make_device.png)
 
-   ![Overview](./doc/spreadsheet.png)
-
-   Spreadsheets can be used by placing them in `HABitatX/db/excel`.
-
-4. Set title，spreadsheet and code in the datafile operator.
-
-   https://www.youtube.com/watch?v=Kh5YQE_awGI
-
-5. Generate devices at once.
-
-   https://www.youtube.com/watch?v=ZzczEUgfLsQ
-
-The template code and spreadsheets used in the demo video are placed in `HABitatX/examples`.
+5. Batch create devices

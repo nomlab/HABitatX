@@ -6,10 +6,10 @@ services:
     build:
       dockerfile: Dockerfile.prod
     ports:
-      - "9001:9001"
+      - "9100:9100"
     environment:
       - RAILS_ENV=production
-      - PORT=9001
+      - PORT=9100
       - SECRET_KEY_BASE=${SECRET_KEY_BASE}
     volumes:
       # Production環境ではコードをマウントしない（storage, log, tmpのみ）

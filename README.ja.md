@@ -42,8 +42,17 @@ Excel 形式を用いる．
 # Launch
 ## 事前準備
 1. `.env.example` をコピーして `.env` を作成する
-2. `.env` の `OPENHAB_PATH`，`AUTH_SERVER_PATH`，`PUB_KEY` をそれぞれ自身の情報に置き換える
-3. 任意の RDBMS の gem について `Gemfile` に追加し，その他 RDBMS の情報を適宜，必要場所に追加，編集する
+2. `.env` の `OPENHAB_PATH`，`OPENHAB_LINK`をそれぞれ自身の情報に置き換える
+3. コンテナを利用する際は，`.env` の ポート設定やUID設定を完了させる
+4. production 環境で利用する場合は`.env` の `RAILS_ENV` を `production` とし，`SECRET_KEY_BASE` を生成する
+
+## Docker (推奨)
+1. コンテナイメージ作成
+```bash
+$ ./start.sh
+```
+起動後，ブラウザ上で http://localhost:9000 を開くと HABitatX の画面が開く
+* production 環境の場合，起動後，ブラウザ上で http://localhost:9100 を開くと HABitatX の画面が開く
 
 ## Linux
 1. `bundle install`する
@@ -56,47 +65,33 @@ Excel 形式を用いる．
    ```
 3. 起動
 ```bash
-$ bin/rails server
+$ bundle exec rails server
 ```
-起動後，ブラウザ上で http://localhost:3000 を開くと HABitatX の画面が開く
-
-## Docker
-1. コンテナイメージ作成
-```bash
-$ ./start.sh
-```
-起動後，ブラウザ上で http://localhost:3000 を開くと HABitatX の画面が開く
+起動後，ブラウザ上で http://localhost:9000 を開くと HABitatX の画面が開く
 
 # Usage
-![Overview](./doc/HABitatX.svg)
-
-## デモ
+![Overview](./docs/HABitatX_overview.png)
 1. テンプレートコード作成
-   ```bash
-   Switch <%= code['itemID'] %> "<%= code['label'] %>" <<%= code['icon'] %>>
+   ```ruby
+   table.each do |member|
+      equipment(name: "#{member[:name]}", label: "#{member[:label]}", icon: "Man_1", parent: "room106") do
+         point(name: "#{member[:name]}_position", label: "#{member[:label]} Position", type: "String", icon: "motion", parent: "positions", tags: ["Point", "Presence"])
+         point(name: "#{member[:name]}_status", label: "#{member[:label]} Status", type: "String", icon: "status", tags: ["Point", "Presence"])
+      end
+   end
    ```
-2. template操作部でtitle，code，openHAB ID prefix，extensionを設定
-
-   https://www.youtube.com/watch?v=XqZT1b-lbVg
-
-   ・codeはテンプレートコードである
-   
-   ・openHAB ID prefix と 各デバイスのIDを組み合わせて設定ファイル名を作成する
-   
-   ・extentionは拡張子を選択する
+2. template管理部でテンプレート名，ベース名，ファイルタイプ，Content を設定
+![Template](./docs/make_template.png)
+* codeはテンプレートコードである
+* ベース名とテンプレート名を組み合わせて設定DSL名を作成する
+* ファイルタイプは拡張子を選択する
+* Content は 1 で作成したテンプレートコードである
 
 3. スプレッドシート作成
 
-   ![Overview](./doc/spreadsheet.png)
+* 作成方法は[spreadsheet](https://github.com/nomlab/habdsl?tab=readme-ov-file#spreadsheet)参照
 
-   スプレッドシートは `HABitatX/db/excel` に配置することで使用できる
-
-4. datafile操作部でtitle，spreadsheet，codeを設定
-
-   https://www.youtube.com/watch?v=Kh5YQE_awGI
+4. item管理部でアイテム名，スプレッドシート，テンプレートを設定
+![Device](./docs/make_device.png)
 
 5. デバイス一括作成
-
-   https://www.youtube.com/watch?v=ZzczEUgfLsQ
-
-デモ動画で使用したテンプレートコードとスプレッドシートは `HABitatX/examples` に配置している

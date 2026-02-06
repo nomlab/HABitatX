@@ -19,6 +19,8 @@ services:
      environment:
        - RAILS_ENV=${RAILS_ENV:-development}
        - PORT=${PORT:-9000}
+       - OPENHAB_PATH=${OPENHAB_PATH}
+       - OPENHAB_LINK=${OPENHAB_LINK}
      restart: unless-stopped
      stdin_open: true
      tty: true
