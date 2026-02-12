@@ -16,10 +16,11 @@ services:
        - ./storage:/home/habitatx/storage
        - ./log:/home/habitatx/log
        - ./tmp:/home/habitatx/tmp
+       - ${OPENHAB_PATH}:/home/habitatx/openhab
      environment:
        - RAILS_ENV=${RAILS_ENV:-development}
        - PORT=${PORT:-9000}
-       - OPENHAB_PATH=${OPENHAB_PATH}
+       - OPENHAB_PATH=/home/habitatx/openhab
        - OPENHAB_LINK=${OPENHAB_LINK}
      restart: unless-stopped
      stdin_open: true

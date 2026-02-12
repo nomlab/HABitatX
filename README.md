@@ -46,6 +46,18 @@ When you use `Docker` to launch HABitatX, you need not to install it. We explain
 2. Replace `OPENHAB_PATH` and `OPENHAB_LINK` in the `.env` file with your own information.
 3. When using containers, complete the port and UID settings in the `.env` file.
 4. For production environment, set `RAILS_ENV` to `production` in the `.env` file and generate `SECRET_KEY_BASE`.
+5. Change access permissions for `OPENHAB_PATH`
+* For Docker
+   ```bash
+   $ sudo chgrp -R ${UID} ${OPENHAB_PATH}
+   $ sudo chmod -R 775 ${OPENHAB_PATH}
+   ```
+   * Example: UID:1000, OPENHAB_PATH:/etc/openhab
+      ```bash
+      $ sudo chgrp -R 1000 /etc/openhab
+      $ sudo chmod -R 775 /etc/openhab
+      ```
+
 
 ## Docker (Recommended)
 1. Build container image

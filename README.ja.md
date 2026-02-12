@@ -45,6 +45,18 @@ Excel 形式を用いる．
 2. `.env` の `OPENHAB_PATH`，`OPENHAB_LINK`をそれぞれ自身の情報に置き換える
 3. コンテナを利用する際は，`.env` の ポート設定やUID設定を完了させる
 4. production 環境で利用する場合は`.env` の `RAILS_ENV` を `production` とし，`SECRET_KEY_BASE` を生成する
+5. `OPENHAB_PATH` のアクセス権限を変更する
+* Docker の場合
+   ```bash
+   $ sudo chgrp -R ${UID} ${OPENHAB_PATH}
+   $ sudo chmod -R 775 ${OPENHAB_PATH}
+   ```
+   * 例：UID:1000, OPENHAB_PATH:/etc/openhab の場合
+      ```bash
+      $ sudo chgrp -R 1000 /etc/openhab
+      $ sudo chmod -R 775 /etc/openhab
+      ```
+
 
 ## Docker (推奨)
 1. コンテナイメージ作成
